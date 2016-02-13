@@ -2,7 +2,9 @@ package com.clickdelivery.appmospheric.config;
 
 import com.clickdelivery.appmospheric.clients.api.IWeatherClient;
 import com.clickdelivery.appmospheric.clients.impl.WeatherClient;
+import com.clickdelivery.appmospheric.services.api.ILocationService;
 import com.clickdelivery.appmospheric.services.api.IWeatherService;
+import com.clickdelivery.appmospheric.services.impl.LocationService;
 import com.clickdelivery.appmospheric.services.impl.WeatherService;
 import com.google.inject.AbstractModule;
 
@@ -24,6 +26,7 @@ public class ConfigurationModules extends AbstractModule {
      */
     private void bindServices() {
         bind(IWeatherService.class).to(WeatherService.class);
+        bind(ILocationService.class).to(LocationService.class);
     }
 
     /**

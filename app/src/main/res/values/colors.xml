@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="white">#ffffff</color>
+    <color name="white_15_percent">#26ffffff</color>
+    <color name="white_30_percent">#4Dffffff</color>
+
+    <color name="black">#000000</color>
+
     <color name="colorPrimary">@color/main_color_500</color>
     <color name="colorPrimaryDark">@color/main_color_500</color>
     <color name="colorPrimaryLight">@color/main_color_100</color>

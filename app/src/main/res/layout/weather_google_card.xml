@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/card_background_white"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/google_cards_background_top"
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="24dp">
+
+        <com.clickdelivery.appmospheric.views.font.RobotoTextView
+            android:id="@+id/city_name_rtv"
+            style="@style/HeadlineStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.87"
+            android:text="City name"/>
+
+        <com.clickdelivery.appmospheric.views.font.RobotoTextView
+            android:id="@+id/date_rtv"
+            style="@style/Body1Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.54"
+            android:paddingTop="12dp"
+            android:text="Mon, 12:30 PM, Mostly sunny"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp">
+
+        <com.clickdelivery.appmospheric.views.font.RobotoTextView
+            android:id="@+id/degrees_rtv"
+            style="@style/Display4Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.54"
+            android:text="23"/>
+
+        <com.clickdelivery.appmospheric.views.font.RobotoTextView
+            android:id="@+id/type_degrees_rtv"
+            style="@style/Display3Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/degrees_rtv"
+            android:alpha="0.54"
+            android:paddingTop="16dp"
+            android:text="°C"/>
+
+        <ImageView
+            android:layout_width="112dp"
+            android:layout_height="112dp"
+            android:layout_alignBottom="@id/degrees_rtv"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/degrees_rtv"
+            android:src="@drawable/ic_sunny_one_cloud"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp">
+
+        <com.clickdelivery.appmospheric.views.font.MaterialDesignIconsTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.54"
+            android:text="@string/material_weather_windy"
+            android:textSize="24dp"/>
+
+        <com.clickdelivery.appmospheric.views.font.RobotoTextView
+            android:id="@+id/wind_speed_rtv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="24dp"
+            android:text="23 km/h"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_clouds_little_rain"/>
+
+        <com.clickdelivery.appmospheric.views.font.RobotoTextView
+            android:id="@+id/humidity_rtv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="24dp"
+            android:text="23 km/h"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:alpha="0.12"
+        android:background="@color/black"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/google_cards_background_bottom"
+        android:orientation="horizontal">
+
+        <com.clickdelivery.appmospheric.views.common.MaterialRippleLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp">
+
+            <com.clickdelivery.appmospheric.views.font.RobotoTextView
+                style="@style/ButtonTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.54"
+                android:text="@string/show_in_map"/>
+
+        </com.clickdelivery.appmospheric.views.common.MaterialRippleLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

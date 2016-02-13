@@ -105,6 +105,7 @@
     <string name="material_icon_undo">&#xeb2c;</string>
     <string name="material_icon_unfold_more">&#xeb2f;</string>
     <string name="material_icon_camera">&#xe852;</string>
+    <string name="material_weather_windy">&#xeb61;</string>
     <string name="material_wheelchair">&#xeb64;</string>
 
 </resources>

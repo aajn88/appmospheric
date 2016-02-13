@@ -1,7 +1,17 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.clickdelivery.appmospheric.controllers.MainFragment">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.clickdelivery.appmospheric.controllers.MainFragment">
 
-</FrameLayout>
+    <com.clickdelivery.appmospheric.views.progress_bars.ProgressWheel
+        android:id="@+id/loading_pw"
+        style="@style/ProgressBarStyle.Main"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        app:circleColor="@android:color/transparent"/>
+
+</RelativeLayout>
