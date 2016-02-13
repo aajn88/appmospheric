@@ -1,12 +1,17 @@
-package com.clickdelivery.appmospheric;
+package com.clickdelivery.appmospheric.controllers;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
+
+import com.clickdelivery.appmospheric.R;
 
 import roboguice.activity.RoboActionBarActivity;
 import roboguice.inject.ContentView;
@@ -14,6 +19,8 @@ import roboguice.inject.InjectView;
 
 /**
  * This is the main activity where the splash screen is shown
+ *
+ * @author <a href="mailto:aajn88@gmail.com">Antonio A. Jimenez N.</a>
  */
 @ContentView(R.layout.activity_main)
 public class MainActivity extends RoboActionBarActivity {
@@ -33,6 +40,24 @@ public class MainActivity extends RoboActionBarActivity {
         super.onCreate(savedInstanceState);
 
         fadeAnimation(mAppmosphericLogoIv);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                goHome();
+            }
+        }, SPLASH_DELAY);
+    }
+
+    /**
+     * This method redirects to HomeActivity in the properly manner
+     */
+    private void goHome() {
+        Intent homeIntent = new Intent(this, HomeActivity.class);
+        ActivityOptionsCompat options = ActivityOptionsCompat
+                .makeSceneTransitionAnimation(this, mAppmosphericLogoIv,
+                        getString(R.string.transition_body));
+        startActivity(homeIntent, options.toBundle());
     }
 
     /**

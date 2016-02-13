@@ -550,7 +550,7 @@ input languages enabled.
 
     <!-- Material Ripple Layout -->
     <declare-styleable name="MaterialRippleLayout">
-        <attr name="rippleColor" format="color" />
+        <attr name="materialRippleColor" format="color" />
         <attr name="rippleDimension" format="dimension" />
         <attr name="rippleOverlay" format="boolean" />
         <attr name="rippleAlpha" format="float" />
