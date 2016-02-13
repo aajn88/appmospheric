@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.clickdelivery.appmospheric.R;
@@ -63,6 +64,10 @@ public class HomeActivity extends BaseActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        MenuItem item = mNavigationView.getMenu().getItem(0);
+        item.setChecked(true);
+        onNavigationItemSelected(item);
 
     }
 

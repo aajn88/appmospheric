@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.clickdelivery.appmospheric.R;
-import com.clickdelivery.appmospheric.controllers.MainFragment;
+import com.clickdelivery.appmospheric.controllers.main_view.MainFragment;
 
 import roboguice.activity.RoboActionBarActivity;
 import roboguice.inject.InjectView;

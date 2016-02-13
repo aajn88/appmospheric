@@ -1,7 +1,8 @@
-package com.clickdelivery.appmospheric.controllers;
+package com.clickdelivery.appmospheric.controllers.main_view;
 
 
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -10,11 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.clickdelivery.appmospheric.R;
+import com.clickdelivery.appmospheric.model.BasicInfo;
 import com.clickdelivery.appmospheric.services.api.ILocationService;
 import com.clickdelivery.appmospheric.services.api.IWeatherService;
+import com.clickdelivery.appmospheric.utils.AnimationsUtils;
 import com.clickdelivery.appmospheric.utils.StringUtils;
 import com.clickdelivery.appmospheric.views.progress_bars.ProgressWheel;
 import com.google.inject.Inject;
+import com.nhaarman.listviewanimations.appearance.AnimationAdapter;
+import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
@@ -31,6 +40,10 @@ public class MainFragment extends RoboFragment implements ILocationService.Locat
     /** Loading Progress Wheel **/
     @InjectView(R.id.loading_pw)
     private ProgressWheel mLoadingPw;
+
+    /** The Weather Cards ListView **/
+    @InjectView(R.id.weather_cards_lv)
+    private DynamicListView mWeatherCardsLv;
 
     /** Weather Service **/
     @Inject
@@ -63,7 +76,7 @@ public class MainFragment extends RoboFragment implements ILocationService.Locat
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mLoadingPw.spin();
+        enableProgressWheel(true);
         locationService.getLocation(getActivity(), this);
     }
 
@@ -75,16 +88,63 @@ public class MainFragment extends RoboFragment implements ILocationService.Locat
      */
     @Override
     public void gotLocation(Location location) {
-        if (mLoadingPw.isSpinning()) {
-            mLoadingPw.stopSpinning();
-        }
-
         Log.d(TAG_LOG, StringUtils.format("The reached location is %s", location));
+
+        Location[] locations = {null, null, null, null};
+        new LoadWeatherInfoAsyncTask().execute(locations);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         locationService.onPauseSyncState();
+    }
+
+    /**
+     * This method enables/disables the Progress Wheel and all its related views, such as, Weather
+     * Google Cards ListView
+     *
+     * @param enable
+     *         True enables the ProgressWheel. False disables it.
+     */
+    private void enableProgressWheel(boolean enable) {
+        mWeatherCardsLv.setVisibility(enable ? View.GONE : View.VISIBLE);
+        mLoadingPw.setVisibility(enable ? View.VISIBLE : View.GONE);
+
+        if (mLoadingPw.isSpinning()) {
+            mLoadingPw.stopSpinning();
+        }
+
+        if (enable) {
+            mLoadingPw.spin();
+        }
+
+    }
+
+    /**
+     * This Async Task loads the weather information, from the Location lists passed as parameter
+     */
+    private class LoadWeatherInfoAsyncTask extends AsyncTask<Location, Void, List<BasicInfo>> {
+
+        @Override
+        protected List<BasicInfo> doInBackground(Location... params) {
+            List<BasicInfo> weathers = new ArrayList<>();
+            for (Location location : params) {
+                weathers.add(null);
+            }
+            return weathers;
+        }
+
+        @Override
+        protected void onPostExecute(List<BasicInfo> basicInfos) {
+            super.onPostExecute(basicInfos);
+            enableProgressWheel(false);
+
+            WeatherGCardsAdapter adapter = new WeatherGCardsAdapter(getActivity(), basicInfos);
+            AnimationAdapter animAdapter = AnimationsUtils
+                    .animateAdapter(new Random().nextInt(5), adapter);
+            animAdapter.setAbsListView(mWeatherCardsLv);
+            mWeatherCardsLv.setAdapter(animAdapter);
+        }
     }
 }
