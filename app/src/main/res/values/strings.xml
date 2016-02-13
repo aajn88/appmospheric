@@ -10,4 +10,7 @@
     <!-- Transitions Strings -->
     <string name="transition_body">transition_body</string>
 
+    <!-- Drawer Menu -->
+    <string name="home">Home</string>
+
 </resources>

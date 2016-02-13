@@ -5,10 +5,16 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 
 import com.clickdelivery.appmospheric.R;
 import com.clickdelivery.appmospheric.controllers.common.BaseActivity;
+import com.clickdelivery.appmospheric.model.City;
+import com.clickdelivery.appmospheric.services.api.IWeatherService;
+import com.google.inject.Inject;
+
+import java.util.List;
 
 import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
@@ -25,12 +31,30 @@ public class HomeActivity extends BaseActivity {
     @InjectView(R.id.fab)
     private FloatingActionButton mMapFab;
 
+    /** Weather Service **/
+    @Inject
+    private IWeatherService weatherService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mFstActionTv.setVisibility(View.VISIBLE);
         mFstActionTv.setText(R.string.material_icon_magnify);
+        mFstActionTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        List<City> cities = weatherService.findCityByName("Bogo");
+                        for (City city : cities) {
+                            Log.d("City", city.getName());
+                        }
+                    }
+                }).start();
+            }
+        });
 
         mMapFab.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -2,6 +2,8 @@ package com.clickdelivery.appmospheric.controllers.common;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.clickdelivery.appmospheric.R;
+import com.clickdelivery.appmospheric.controllers.MainFragment;
 
 import roboguice.activity.RoboActionBarActivity;
 import roboguice.inject.InjectView;
@@ -80,18 +83,16 @@ public class BaseActivity extends RoboActionBarActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        Fragment fragment = null;
+        switch (id) {
+            case R.id.nav_home:
+                fragment = MainFragment.newInstance();
+                break;
+        }
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (fragment != null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.main_content_rl, fragment).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
