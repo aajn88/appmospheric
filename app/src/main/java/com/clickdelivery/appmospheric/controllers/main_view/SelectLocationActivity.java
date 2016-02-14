@@ -70,8 +70,14 @@ public class SelectLocationActivity extends RoboActionBarActivity
         mFstActionTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CameraPosition cameraPosition = mMap.getCameraPosition();
-                showConfirmation(cameraPosition.target);
+                selectCurrentPosition();
+            }
+        });
+
+        mMarkerIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectCurrentPosition();
             }
         });
 
@@ -80,6 +86,14 @@ public class SelectLocationActivity extends RoboActionBarActivity
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         enableProgressWheel(true);
+    }
+
+    /**
+     * This method selects the current position
+     */
+    private void selectCurrentPosition() {
+        CameraPosition cameraPosition = mMap.getCameraPosition();
+        showConfirmation(cameraPosition.target);
     }
 
     /**
@@ -92,11 +106,11 @@ public class SelectLocationActivity extends RoboActionBarActivity
         mLoadingPw.setVisibility(enable ? View.VISIBLE : View.GONE);
         mMarkerIcon.setVisibility(enable ? View.GONE : View.VISIBLE);
 
-        if(mLoadingPw.isSpinning()) {
+        if (mLoadingPw.isSpinning()) {
             mLoadingPw.stopSpinning();
         }
 
-        if(enable) {
+        if (enable) {
             mLoadingPw.spin();
         }
     }

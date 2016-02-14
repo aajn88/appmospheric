@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/searcher_ll"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/white"
+    android:elevation="4dp"
+    android:gravity="center">
+
+    <com.clickdelivery.appmospheric.views.font.MaterialDesignIconsTextView
+        android:id="@+id/searcher_back_mditv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:text="@string/material_icon_arrow_left"
+        android:textColor="@color/main_color_500"
+        android:textSize="24dp"/>
+
+    <EditText
+        android:id="@+id/searcher_et"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/searcher_back_mditv"
+        android:background="@android:color/transparent"
+        android:hint="@string/search_ellipsis"
+        android:textSize="20sp"/>
+
+    <com.clickdelivery.appmospheric.views.font.MaterialDesignIconsTextView
+        android:id="@+id/clear_mditv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:text="@string/material_icon_close"
+        android:textSize="24dp"/>
+
+</RelativeLayout>

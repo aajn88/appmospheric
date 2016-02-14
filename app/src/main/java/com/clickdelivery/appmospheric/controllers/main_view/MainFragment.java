@@ -2,6 +2,7 @@ package com.clickdelivery.appmospheric.controllers.main_view;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -14,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.clickdelivery.appmospheric.R;
+import com.clickdelivery.appmospheric.controllers.common.IFilterRegister;
+import com.clickdelivery.appmospheric.controllers.common.IFilterSubscriber;
 import com.clickdelivery.appmospheric.model.WeatherInfo;
 import com.clickdelivery.appmospheric.services.api.ILocationService;
 import com.clickdelivery.appmospheric.services.api.IWeatherService;
@@ -39,7 +42,8 @@ import roboguice.inject.InjectView;
  * A simple {@link Fragment} subclass. Use the {@link MainFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MainFragment extends RoboFragment implements ILocationService.LocationResultListener {
+public class MainFragment extends RoboFragment
+        implements ILocationService.LocationResultListener, IFilterSubscriber {
 
     /** Map Request ID **/
     public static final String RESULTING_LOCATION = "RESULTING_LOCATION";
@@ -70,6 +74,12 @@ public class MainFragment extends RoboFragment implements ILocationService.Locat
 
     /** Stored Locations **/
     private List<Location> mStoredLocations;
+
+    /** Filter Register **/
+    private IFilterRegister mFilterRegister;
+
+    /** Weaher Adapter **/
+    private WeatherGCardsAdapter mAdapter;
 
     /** Default Constructor **/
     public MainFragment() {
@@ -109,6 +119,31 @@ public class MainFragment extends RoboFragment implements ILocationService.Locat
                 startActivityForResult(selectLocationIntent, MAP_REQUEST_ID);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mFilterRegister != null) {
+            mFilterRegister.register(this);
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof IFilterRegister) {
+            mFilterRegister = ((IFilterRegister) context);
+            mFilterRegister.register(this);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mFilterRegister != null) {
+            mFilterRegister.unregister(this);
+        }
     }
 
     /**
@@ -201,6 +236,19 @@ public class MainFragment extends RoboFragment implements ILocationService.Locat
     }
 
     /**
+     * This method will be called when the filter is changed
+     *
+     * @param s
+     *         The new filter request
+     */
+    @Override
+    public void filter(CharSequence s) {
+        if(mAdapter != null && mAdapter.getFilter() != null) {
+            mAdapter.getFilter().filter(s);
+        }
+    }
+
+    /**
      * This Async Task loads the weather information, from the Location lists passed as parameter
      */
     private class LoadWeatherInfoAsyncTask extends AsyncTask<Location, Void, List<WeatherInfo>> {
@@ -220,9 +268,9 @@ public class MainFragment extends RoboFragment implements ILocationService.Locat
             super.onPostExecute(basicInfos);
             enableProgressWheel(false);
 
-            WeatherGCardsAdapter adapter = new WeatherGCardsAdapter(getActivity(), basicInfos);
+            mAdapter = new WeatherGCardsAdapter(getActivity(), basicInfos);
             AnimationAdapter animAdapter = AnimationsUtils
-                    .animateAdapter(new Random().nextInt(5), adapter);
+                    .animateAdapter(new Random().nextInt(5), mAdapter);
             animAdapter.setAbsListView(mWeatherCardsLv);
             mWeatherCardsLv.setAdapter(animAdapter);
         }

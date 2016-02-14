@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,10 +15,14 @@ import com.clickdelivery.appmospheric.model.Weather;
 import com.clickdelivery.appmospheric.model.WeatherInfo;
 import com.clickdelivery.appmospheric.model.WeatherMainContent;
 import com.clickdelivery.appmospheric.utils.StringUtils;
+import com.clickdelivery.appmospheric.utils.ViewUtils;
+import com.github.johnpersano.supertoasts.SuperToast;
+import com.github.johnpersano.supertoasts.util.Style;
 
 import org.apache.commons.lang3.text.WordUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -41,6 +46,47 @@ public class WeatherGCardsAdapter extends ArrayAdapter<WeatherInfo> {
     /** The Layout Inflater **/
     private LayoutInflater mInflater;
 
+    /** Original List. This is used for filter actions **/
+    private List<WeatherInfo> mRealList;
+
+    /** Filter **/
+    private Filter mFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults results = new FilterResults();
+            List<WeatherInfo> vds = new ArrayList<WeatherInfo>();
+
+            String[] words = constraint.toString().split(" +");
+            for (int i = 0; i < words.length; i++) {
+                words[i] = words[i].toUpperCase();
+            }
+
+            for (WeatherInfo weatherInfo : mRealList) {
+                String prodNom = weatherInfo.getName().toUpperCase();
+                boolean match = true;
+                for (int i = 0; i < words.length && match; i++) {
+                    match = prodNom.contains(words[i]);
+                }
+                if (match) {
+                    vds.add(weatherInfo);
+                }
+            }
+
+            results.count = vds.size();
+            results.values = vds;
+
+            return results;
+
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            clear();
+            addAll((List<WeatherInfo>) results.values);
+            notifyDataSetChanged();
+        }
+    };
+
     /**
      * Constructor
      *
@@ -52,6 +98,7 @@ public class WeatherGCardsAdapter extends ArrayAdapter<WeatherInfo> {
     public WeatherGCardsAdapter(Context context, List<WeatherInfo> objects) {
         super(context, R.layout.weather_google_card, objects);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mRealList = new ArrayList<>(objects);
     }
 
     @Override
@@ -92,7 +139,20 @@ public class WeatherGCardsAdapter extends ArrayAdapter<WeatherInfo> {
         String humidity = getContext().getString(R.string.humidity);
         holder.humidity.setText(StringUtils.format(humidity, main.getHumidity()));
 
+        holder.showMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewUtils.makeToast(getContext(), R.string.simulated_show_map,
+                        SuperToast.Duration.MEDIUM, Style.GRAY).show();
+            }
+        });
+
         return convertView;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return mFilter;
     }
 
     /**

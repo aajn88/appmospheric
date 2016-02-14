@@ -8,6 +8,10 @@
     <string name="action_settings">Settings</string>
     <string name="cancel">Cancel</string>
     <string name="location_error">An error occurred calculating your location</string>
+    <string name="simulated_show_map">Simulated show map!</string>
+    <string name="search_ellipsis">Search...</string>
+    <string name="auhtor_name">Antonio Jimenez</string>
+    <string name="author_email">aajn88@gmail.com</string>
 
     <!-- Transitions Strings -->
     <string name="transition_body">transition_body</string>
