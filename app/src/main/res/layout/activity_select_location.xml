@@ -1,0 +1,41 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <include layout="@layout/appmospheric_toolbar"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="com.clickdelivery.appmospheric.controllers.main_view.SelectLocationActivity"/>
+
+        <com.clickdelivery.appmospheric.views.font.MaterialDesignIconsTextView
+            android:id="@+id/marker_mditv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:padding="8dp"
+            android:text="@string/material_icon_map_marker"
+            android:textColor="@color/colorAccent"
+            android:textSize="24dp"/>
+
+        <com.clickdelivery.appmospheric.views.progress_bars.ProgressWheel
+            android:id="@+id/loading_pw"
+            style="@style/ProgressBarStyle.Main"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            app:circleColor="@android:color/transparent"/>
+    </RelativeLayout>
+</LinearLayout>

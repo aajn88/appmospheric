@@ -28,10 +28,6 @@ import roboguice.inject.InjectView;
 @ContentView(R.layout.activity_home)
 public class HomeActivity extends BaseActivity {
 
-    /** Map Floation Action Button **/
-    @InjectView(R.id.fab)
-    private FloatingActionButton mMapFab;
-
     /** Weather Service **/
     @Inject
     private IWeatherService weatherService;
@@ -54,14 +50,6 @@ public class HomeActivity extends BaseActivity {
                         }
                     }
                 }).start();
-            }
-        });
-
-        mMapFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
             }
         });
 

@@ -77,6 +77,7 @@
     <string name="material_icon_note">&#xea23;</string>
     <string name="material_icon_message">&#xea12;</string>
     <string name="material_icon_map">&#xea06;</string>
+    <string name="material_icon_map_marker">&#xea05;</string>
     <string name="material_icon_magnify">&#xea01;</string>
     <string name="material_icon_minus_box">&#xea19;</string>
     <string name="material_icon_play">&#xe831;</string>

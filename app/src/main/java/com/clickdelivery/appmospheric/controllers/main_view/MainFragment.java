@@ -1,9 +1,12 @@
 package com.clickdelivery.appmospheric.controllers.main_view;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +19,11 @@ import com.clickdelivery.appmospheric.services.api.ILocationService;
 import com.clickdelivery.appmospheric.services.api.IWeatherService;
 import com.clickdelivery.appmospheric.utils.AnimationsUtils;
 import com.clickdelivery.appmospheric.utils.StringUtils;
+import com.clickdelivery.appmospheric.utils.ViewUtils;
 import com.clickdelivery.appmospheric.views.progress_bars.ProgressWheel;
+import com.github.johnpersano.supertoasts.SuperToast;
+import com.github.johnpersano.supertoasts.util.Style;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.inject.Inject;
 import com.nhaarman.listviewanimations.appearance.AnimationAdapter;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
@@ -34,6 +41,10 @@ import roboguice.inject.InjectView;
  */
 public class MainFragment extends RoboFragment implements ILocationService.LocationResultListener {
 
+    /** Map Request ID **/
+    public static final String RESULTING_LOCATION = "RESULTING_LOCATION";
+    /** Map Request ID **/
+    private static final int MAP_REQUEST_ID = 1;
     /** Tag for Logs **/
     private static final String TAG_LOG = MainFragment.class.getName();
 
@@ -45,6 +56,10 @@ public class MainFragment extends RoboFragment implements ILocationService.Locat
     @InjectView(R.id.weather_cards_lv)
     private DynamicListView mWeatherCardsLv;
 
+    /** Map Floation Action Button **/
+    @InjectView(R.id.fab)
+    private FloatingActionButton mMapFab;
+
     /** Weather Service **/
     @Inject
     private IWeatherService weatherService;
@@ -52,6 +67,9 @@ public class MainFragment extends RoboFragment implements ILocationService.Locat
     /** Location Service **/
     @Inject
     private ILocationService locationService;
+
+    /** Stored Locations **/
+    private List<Location> mStoredLocations;
 
     /** Default Constructor **/
     public MainFragment() {
@@ -77,7 +95,20 @@ public class MainFragment extends RoboFragment implements ILocationService.Locat
         super.onViewCreated(view, savedInstanceState);
 
         enableProgressWheel(true);
-        locationService.getLocation(getActivity(), this);
+        if (!locationService.getLocation(getActivity(), this)) {
+            ViewUtils.makeToast(getActivity(), R.string.location_error,
+                    SuperToast.Duration.EXTRA_LONG, Style.RED).show();
+            enableProgressWheel(false);
+        }
+
+        mMapFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent selectLocationIntent = new Intent(getActivity(),
+                        SelectLocationActivity.class);
+                startActivityForResult(selectLocationIntent, MAP_REQUEST_ID);
+            }
+        });
     }
 
     /**
@@ -90,11 +121,12 @@ public class MainFragment extends RoboFragment implements ILocationService.Locat
     public void gotLocation(Location location) {
         Log.d(TAG_LOG, StringUtils.format("The reached location is %s", location));
 
-        // TODO: Establish default locations
-        List<Location> locationList = getDefaultLocations();
-        locationList.add(0, location);
-        Location[] locations = new Location[locationList.size()];
-        new LoadWeatherInfoAsyncTask().execute(locationList.toArray(locations));
+        if (mStoredLocations == null || mStoredLocations.isEmpty()) {
+            mStoredLocations = getDefaultLocations();
+            mStoredLocations.add(0, location);
+        }
+        Location[] locations = new Location[mStoredLocations.size()];
+        new LoadWeatherInfoAsyncTask().execute(mStoredLocations.toArray(locations));
     }
 
     /**
@@ -130,12 +162,6 @@ public class MainFragment extends RoboFragment implements ILocationService.Locat
         return location;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        locationService.onPauseSyncState();
-    }
-
     /**
      * This method enables/disables the Progress Wheel and all its related views, such as, Weather
      * Google Cards ListView
@@ -145,6 +171,7 @@ public class MainFragment extends RoboFragment implements ILocationService.Locat
      */
     private void enableProgressWheel(boolean enable) {
         mWeatherCardsLv.setVisibility(enable ? View.GONE : View.VISIBLE);
+        mMapFab.setVisibility(enable ? View.GONE : View.VISIBLE);
         mLoadingPw.setVisibility(enable ? View.VISIBLE : View.GONE);
 
         if (mLoadingPw.isSpinning()) {
@@ -155,6 +182,22 @@ public class MainFragment extends RoboFragment implements ILocationService.Locat
             mLoadingPw.spin();
         }
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == MAP_REQUEST_ID && resultCode == Activity.RESULT_OK) {
+            enableProgressWheel(true);
+
+            LatLng resultingLocation = data.getParcelableExtra(RESULTING_LOCATION);
+
+            mStoredLocations
+                    .add(0, buildLocation(resultingLocation.latitude, resultingLocation.longitude));
+
+            Location[] locationsArr = new Location[mStoredLocations.size()];
+            new LoadWeatherInfoAsyncTask().execute(mStoredLocations.toArray(locationsArr));
+        }
     }
 
     /**
