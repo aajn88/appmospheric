@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.clickdelivery.appmospheric.R;
-import com.clickdelivery.appmospheric.model.BasicInfo;
+import com.clickdelivery.appmospheric.model.WeatherInfo;
 import com.clickdelivery.appmospheric.services.api.ILocationService;
 import com.clickdelivery.appmospheric.services.api.IWeatherService;
 import com.clickdelivery.appmospheric.utils.AnimationsUtils;
@@ -90,8 +90,44 @@ public class MainFragment extends RoboFragment implements ILocationService.Locat
     public void gotLocation(Location location) {
         Log.d(TAG_LOG, StringUtils.format("The reached location is %s", location));
 
-        Location[] locations = {null, null, null, null};
-        new LoadWeatherInfoAsyncTask().execute(locations);
+        // TODO: Establish default locations
+        List<Location> locationList = getDefaultLocations();
+        locationList.add(0, location);
+        Location[] locations = new Location[locationList.size()];
+        new LoadWeatherInfoAsyncTask().execute(locationList.toArray(locations));
+    }
+
+    /**
+     * This method gets defaults location to be shown
+     *
+     * @return List of default locations
+     */
+    private List<Location> getDefaultLocations() {
+        List<Location> locations = new ArrayList<>();
+
+        locations.add(buildLocation(6.2212876, -75.5760867));
+        locations.add(buildLocation(3.45000, -76.53333));
+        locations.add(buildLocation(12.583333, -81.7));
+        locations.add(buildLocation(11.236111, -74.201667));
+
+        return locations;
+    }
+
+    /**
+     * This method builds a location instance given the latitude and longitude
+     *
+     * @param lat
+     *         Latitude
+     * @param lng
+     *         Longitude
+     *
+     * @return The location instance
+     */
+    private Location buildLocation(double lat, double lng) {
+        Location location = new Location((String) null);
+        location.setLatitude(lat);
+        location.setLongitude(lng);
+        return location;
     }
 
     @Override
@@ -124,19 +160,20 @@ public class MainFragment extends RoboFragment implements ILocationService.Locat
     /**
      * This Async Task loads the weather information, from the Location lists passed as parameter
      */
-    private class LoadWeatherInfoAsyncTask extends AsyncTask<Location, Void, List<BasicInfo>> {
+    private class LoadWeatherInfoAsyncTask extends AsyncTask<Location, Void, List<WeatherInfo>> {
 
         @Override
-        protected List<BasicInfo> doInBackground(Location... params) {
-            List<BasicInfo> weathers = new ArrayList<>();
+        protected List<WeatherInfo> doInBackground(Location... params) {
+            List<WeatherInfo> weathers = new ArrayList<>();
             for (Location location : params) {
-                weathers.add(null);
+                weathers.add(weatherService
+                        .getWeatherByLatLng(location.getLatitude(), location.getLongitude()));
             }
             return weathers;
         }
 
         @Override
-        protected void onPostExecute(List<BasicInfo> basicInfos) {
+        protected void onPostExecute(List<WeatherInfo> basicInfos) {
             super.onPostExecute(basicInfos);
             enableProgressWheel(false);
 

@@ -43,7 +43,7 @@
         android:paddingTop="16dp">
 
         <com.clickdelivery.appmospheric.views.font.RobotoTextView
-            android:id="@+id/degrees_rtv"
+            android:id="@+id/temperature_rtv"
             style="@style/Display4Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,17 +55,18 @@
             style="@style/Display3Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/degrees_rtv"
+            android:layout_toRightOf="@id/temperature_rtv"
             android:alpha="0.54"
             android:paddingTop="16dp"
             android:text="°C"/>
 
         <ImageView
+            android:id="@+id/weather_icon_iv"
             android:layout_width="112dp"
             android:layout_height="112dp"
-            android:layout_alignBottom="@id/degrees_rtv"
+            android:layout_alignBottom="@id/temperature_rtv"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@id/degrees_rtv"
+            android:layout_alignTop="@id/temperature_rtv"
             android:src="@drawable/ic_sunny_one_cloud"/>
     </RelativeLayout>
 
@@ -137,6 +138,7 @@
             android:paddingTop="16dp">
 
             <com.clickdelivery.appmospheric.views.font.RobotoTextView
+                android:id="@+id/show_in_map_tv"
                 style="@style/ButtonTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

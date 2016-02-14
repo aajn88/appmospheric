@@ -11,7 +11,7 @@ import android.view.View;
 
 import com.clickdelivery.appmospheric.R;
 import com.clickdelivery.appmospheric.controllers.common.BaseActivity;
-import com.clickdelivery.appmospheric.model.City;
+import com.clickdelivery.appmospheric.model.WeatherInfo;
 import com.clickdelivery.appmospheric.services.api.IWeatherService;
 import com.google.inject.Inject;
 
@@ -48,9 +48,9 @@ public class HomeActivity extends BaseActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        List<City> cities = weatherService.findCityByName("Bogo");
-                        for (City city : cities) {
-                            Log.d("City", city.getName());
+                        List<WeatherInfo> cities = weatherService.findCityByName("Bogo");
+                        for (WeatherInfo weatherInfo : cities) {
+                            Log.d("City", weatherInfo.getName());
                         }
                     }
                 }).start();

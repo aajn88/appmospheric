@@ -1,6 +1,6 @@
 package com.clickdelivery.appmospheric.model.rest;
 
-import com.clickdelivery.appmospheric.model.City;
+import com.clickdelivery.appmospheric.model.WeatherInfo;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class CitiesResponse extends BasicResponse {
     private Integer count;
 
     /** List of cities **/
-    private List<City> list;
+    private List<WeatherInfo> list;
 
     /**
      * @return the message
@@ -51,14 +51,14 @@ public class CitiesResponse extends BasicResponse {
     /**
      * @return the list
      */
-    public List<City> getList() {
+    public List<WeatherInfo> getList() {
         return list;
     }
 
     /**
      * @return list the list to set
      */
-    public void setList(List<City> list) {
+    public void setList(List<WeatherInfo> list) {
         this.list = list;
     }
 }

@@ -2,12 +2,21 @@ package com.clickdelivery.appmospheric.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
+ * This the representation of the WeatherInfo
+ *
  * @author <a href="mailto:aajn88@gmail.com">Antonio Jimenez</a>
  */
-public class BasicInfo {
+public class WeatherInfo {
+
+    /** Id **/
+    private Integer id;
+
+    /** The WeatherInfo name **/
+    private String name;
 
     /** Coordinates **/
     @SerializedName("coord")
@@ -20,6 +29,9 @@ public class BasicInfo {
     /** Wind information **/
     private Wind wind;
 
+    /** Weather Date **/
+    private transient Calendar date;
+
     /** Country **/
     @SerializedName("sys")
     private Country country;
@@ -29,6 +41,34 @@ public class BasicInfo {
 
     /** All weather information **/
     private List<Weather> weather;
+
+    /**
+     * @return the id
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * @return id the id to set
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @return name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 
     /**
      * @return the coordinates
@@ -112,5 +152,19 @@ public class BasicInfo {
      */
     public void setWeather(List<Weather> weather) {
         this.weather = weather;
+    }
+
+    /**
+     * @return the date
+     */
+    public Calendar getDate() {
+        return date;
+    }
+
+    /**
+     * @return date the date to set
+     */
+    public void setDate(Calendar date) {
+        this.date = date;
     }
 }

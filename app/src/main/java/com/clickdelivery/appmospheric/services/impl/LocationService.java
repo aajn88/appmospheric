@@ -155,7 +155,9 @@ public class LocationService implements ILocationService {
      * This method cancels avery listener in GPS
      */
     public void cancelTimer() {
-        timer.cancel();
+        if(timer != null) {
+            timer.cancel();
+        }
         locationManager.removeUpdates(locationListenerGps);
         locationManager.removeUpdates(locationListenerNetwork);
     }
