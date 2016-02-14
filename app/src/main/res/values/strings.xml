@@ -10,7 +10,7 @@
     <string name="location_error">An error occurred calculating your location</string>
     <string name="simulated_show_map">Simulated show map!</string>
     <string name="search_ellipsis">Search...</string>
-    <string name="auhtor_name">Antonio Jimenez</string>
+    <string name="author_name">Antonio Jimenez</string>
     <string name="author_email">aajn88@gmail.com</string>
 
     <!-- Transitions Strings -->
